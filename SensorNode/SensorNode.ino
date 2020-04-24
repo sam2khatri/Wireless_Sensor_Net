@@ -1,6 +1,13 @@
+/******************************************************************************************************
+*                                                                                                     *
+*                               Author:- Samaksh Khatri                                               *
+*                                                                                                     *
+******************************************************************************************************/     
+
+
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <DHT.h>
+#include <DHT.h>            //Library for DHT11 Sensor
   
 #define DHTPIN 34
 #define DHTTYPE DHT11
@@ -76,7 +83,7 @@ void loop() {
  if(WiFi.status()== WL_CONNECTED){   //Check WiFi connection status
    HTTPClient http;   
 
-   http.begin("http://192.168.4.1/light");  //Specify destination for HTTP request
+   http.begin("http://192.168.4.1/sensor");  //Specify destination for HTTP request
    
    http.addHeader("Content-Type", "application/x-www-form-urlencoded");             //Specify content-type header
    int httpResponseCode = http.POST(payLoad);                             //Send the actual POST request
@@ -86,8 +93,8 @@ void loop() {
     //String response = http.getString();                       //Get the response to the request
   
     Serial.println(httpResponseCode);   //Print return code
-    //Serial.println(response);           //Print request answer
-  
+    //Serial.println(response);           //Print request answer. I commented this because the response message was too big and it was 
+                                          //resetting the WiFi everytime
    }
    else
    {
@@ -103,6 +110,5 @@ void loop() {
   
  }
   
-  delay(10000);  //Send a request every 10 seconds
-  
+  delay(20000);  //Send a request every 20 seconds. The Gateway Node needs time to send email and upload data so 20 seconds is enough 
 }
