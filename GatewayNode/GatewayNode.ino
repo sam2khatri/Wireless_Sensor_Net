@@ -22,12 +22,7 @@
 
 #include <WiFiServer.h>
 #include <WiFiServerSecure.h>                   
-#include <WiFiUdp.h>
-
-// Generic Library for Adafruit Sensors-----------------------------------------------------------------------------------------------------------------
-
-#include <Adafruit_Sensor.h>                    
-
+                  
 // Setting Global Variables ----------------------------------------------------------------------------------------------------------------------------
 
 #define FIREBASE_HOST "yourLink"        //Link and Secret Key for Firebase Authentication
