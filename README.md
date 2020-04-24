@@ -7,4 +7,5 @@ For SN, I used ESP32 and for GN I used ESP8266. There is no restriction for this
 
 On the GN, I created a HTTP Web Server to get data from SN. From SN, HTTP POST requests are sent to the GN. 
 
-NOTE: I have also uploaded the libraries you would need. I have also included a Firebase library for ESP32 in case you want make your server on ESP32
+NOTE: I have also uploaded the libraries you would need. I have also included a Firebase library for ESP32 in case you want make your server on ESP32. 
+Rest of the libraries you can find included with Arduino IDE
