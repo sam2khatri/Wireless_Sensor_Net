@@ -23,8 +23,8 @@
 
 // Setting Global Variables ----------------------------------------------------------------------------------------------------------------------------
 
-#define FIREBASE_HOST "https://smart-agriculture-99ad9.firebaseio.com"        //Link and Secret Key for Firebase Authentication
-#define FIREBASE_AUTH "kQw4Jed7Y1o1Si3X7QeCLJR3tNnlY3g2hGBQtjH4"
+#define FIREBASE_HOST "yourLink"        //Link and Secret Key for Firebase Authentication
+#define FIREBASE_AUTH "yourSecretKey"
 
 const char* APssid = "ESP8266-Access-Point";       //Credentials for Access POint
 const char* APpassword = "123456789";
@@ -39,7 +39,7 @@ ESP8266WebServer server(80);                      //Server Object. Port number i
 WiFiClient espClient;                             //Client Object to send Emails
 
 FirebaseData firebaseObj;                                  //Firebase Object which will contain path and payload 
-
+String firebasePath="";                                    //Your path in the Firebase
 // Setting up WiFi, WebServer and Firebase -----------------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);
@@ -49,7 +49,7 @@ void setup() {
   Serial.println();
   Serial.print("Configuring access point...");
   
-  WiFi.mode(WIFI_AP_STA);
+  WiFi.mode(WIFI_AP_STA);                               //WIFI_AP_STA sets up the WiFi in both Station Mode and Soft Access Point Mode
   WiFi.softAP(APssid, APpassword);
   WiFi.begin(ssid, password);
 
@@ -63,6 +63,7 @@ void setup() {
    
  // Setting up the server ------------------------
   server.on("/",handleGenericArgs);           //handleGenericArgs is a handler function that will be called whenever '/' is requested by a client
+                                              //You can omit this function and its handler
   server.on("/sensor",handleSpecificArg);      //Similarly handleSpecificArg is also a handler function
   server.begin();                             //Starting the server
   Serial.println("Server started");
@@ -75,12 +76,11 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-server.handleClient();                              //Handles Client Requests
+server.handleClient();                              //Handles Client Requests and calls the appropriate functions
 }
 
 //Handler Functions ----------------------------------------------------------------------------------------------------------------------------------
-void handleGenericArgs(){
+void handleGenericArgs(){                           
   /*message = "Number of args received: ";
   message+=server.args();
   message+="\n";*/
@@ -92,7 +92,7 @@ void handleGenericArgs(){
     message += server.arg(i)+"\n";
   }
   Serial.println(message);
-  server.send(200,"text/plain","Received Request");
+  server.send(200,"text/plain","Received Data");
 }
 
 void handleSpecificArg()
@@ -121,10 +121,10 @@ void handleSpecificArg()
         Serial.println("Email Sent Successully!");
       else
         Serial.println("Error in sending email!");
-      Firebase.setString(firebaseObj,"Smart-agriculture/user/1/details/ldr",ldr_status);    //Pushing data to Firebase
-      Firebase.setInt(firebaseObj,"Smart-agriculture/user/1/details/temp",temp.toInt());
-      Firebase.setInt(firebaseObj,"Smart-agriculture/user/1/details/hum",hum.toInt());
-      Firebase.setInt(firebaseObj,"Smart-agriculture/user/1/details/soil",soilMoisture.toInt());
+      Firebase.setString(firebaseObj,firebasePath+"/ldr",ldr_status);    //Pushing data to Firebase
+      Firebase.setInt(firebaseObj,firebasePath+"/temp",temp.toInt());
+      Firebase.setInt(firebaseObj,firebasePath+"/hum",hum.toInt());
+      Firebase.setInt(firebaseObj,firebasePath+"/soil",soilMoisture.toInt());
       server.send(200,"text/plain","Received Data");                                                //Sending repsonse to client that valid data is received
     }   
 }
