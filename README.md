@@ -1,4 +1,4 @@
-# Wireless_Sensor_Net
+# Wireless Sensor Net
 In the field of Internet of Things, Wireless Sensor Nets are very versatile and can be used in various monitoring systems such as Agricultural, Smart Parking, Smart Security etc.
 
 Wireless Sensor Net(WSN) consist of many Sensor Nodes(SN) and a Gateway Node(GN). SNs collect data and pass it on to GN. The GN will push the data on to a database such Firebase.
